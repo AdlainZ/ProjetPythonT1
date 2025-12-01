@@ -65,4 +65,3 @@ save_user(user2, "user")
 user3 = User("Martin", "Sophie")
 print(f"User 3 - Login: {user3.login}")
 save_user(user3, "user")
-
