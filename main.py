@@ -3,6 +3,8 @@ from classes.User import User
 from utils.password_utils import generer_mdp, hash_mdp
 from utils.csv_manager import save_user, charger_users
 from utils.Auth import authentifier
+from Menu import main_menu
+
 
 #Test Person
 
@@ -68,27 +70,28 @@ print("-----------------USER------------------------")
 # save_user(user3, "user")
 
 
-print("=================")
-print("=================")
-print("======TEST AUTHENTIFICATION===========")
-print("=================")
-print("=================")
+# print("=================")
+# print("=================")
+# print("======TEST AUTHENTIFICATION===========")
+# print("=================")
+# print("=================")
 
-usertest = User("Babar", "John")
-print(f"Login créé : {usertest.login}")
+# usertest = User("Babar", "John")
+# print(f"Login créé : {usertest.login}")
 
-save_user(usertest, "user")
+# save_user(usertest, "user")
 
-print("Connexion")
-login_input = input("Entrez le login : ")
-mdp_input = input ("Entrez le mot de passe : ")
+# print("Connexion")
+# login_input = input("Entrez le login : ")
+# mdp_input = input ("Entrez le mot de passe : ")
 
-resultat = authentifier(login_input, mdp_input)
+# resultat = authentifier(login_input, mdp_input)
 
-if resultat is not None:
-    print("Bienvenue !")
-    print(f"Bienvenue {resultat['prenom']}{resultat['nom']}")
-    print(f"Votre compte est un {resultat['type']}")
-else:
-    print("Echec de connexion.")
+# if resultat is not None:
+#     print("Bienvenue !")
+#     print(f"Bienvenue {resultat['prenom']}{resultat['nom']}")
+#     print(f"Votre compte est un {resultat['type']}")
+# else:
+#     print("Echec de connexion.")
 
+main_menu()

@@ -22,28 +22,28 @@ def main_menu():
         afficher_menu()
         choix = input("Votre choix : ")
 
-        if choix == 1:
+        if choix == "1":
             print("Connexion en cours...")
 
-        elif choix == 2:
+        elif choix == "2":
             print("Création en cours...")
         
-        elif choix == 3:
+        elif choix == "3":
             print("Création d'un administrateur en cours...")
         
-        elif choix == 4:
+        elif choix == "4":
             print("Chargement des utilisateurs...")
 
-        elif choix == 5:
+        elif choix == "5":
             print("Recherche d'un utilisateur...")
 
-        elif choix == 6:
+        elif choix == "6":
             print("Modification en cours...")
 
-        elif choix == 7:
+        elif choix == "7":
             print("Suppresion en cours...")
         
-        elif choix == 8:
+        elif choix == "8":
             print("Au revoir !")
             break
 
