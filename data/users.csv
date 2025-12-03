@@ -1,3 +1,4 @@
 nom,prenom,login,password,type,niveau_droits
 Meliha,Mel,mmeliha,5d0b8e814d29b822010df0523b16dd0cbf7975a26431901da5bb091e10e90877,admin,1
 Adel,K,kadel,e7e50f428b244c884b1830370871eaaf8473ce51ff078623a0b2f61b7493afc3,user,0
+Blanka,Twitch,tblanka,e55f19a9f297d819885757d502befbf9d19d3b8f8f0833fd55cf037deb084c03,admin,2
