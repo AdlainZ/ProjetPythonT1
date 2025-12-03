@@ -10,14 +10,17 @@ def authentifier(login, mot_de_passe):
     for user in utilisateurs:
         if user['login'] == login:
             print(f"L'identifiant est : {login}")
-        mdp_hash = hash_mdp(mot_de_passe)
-        print(f"DEBUG: Hash du mdp tapé : {mdp_hash}") 
-        print(f"DEBUG: Hash stocké : {user['password']}")
-        print("Verification du mot de passe...")
+            mdp_hash = hash_mdp(mot_de_passe)
+            print(f"DEBUG: Hash du mdp tapé : {mdp_hash}") 
+            print(f"DEBUG: Hash stocké : {user['password']}")
+            print("Verification du mot de passe...")
 
-        if mdp_hash == user['password']:
-            print("Connexion réussie !")
-            return user
-        else:
-            print("Connexion échouée")
-            return None
+            if mdp_hash == user['password']:
+                print("Connexion réussie !")
+                return user
+            else:
+                print("Connexion échouée")
+                return None
+        
+    print(f"Login introuvable.")
+    return None
