@@ -26,7 +26,15 @@ def main_menu():
             print("Connexion en cours...")
 
         elif choix == "2":
-            print("Création en cours...")
+            print("Création d'un utilisateur en cours...")
+            nom = input("Nom : ")
+            prenom = input("Prénom : ")
+
+            new_user = User(nom, prenom)
+            save_user(new_user, "user")
+
+            print(f"L'utilisateur {new_user.login} a été créé avec succès")
+            input("Appuyez sur Entrée pour continuer.......")
         
         elif choix == "3":
             print("Création d'un administrateur en cours...")
@@ -49,4 +57,3 @@ def main_menu():
 
         else:
             print("Veillez à entrer un chiffre entre 1 et 8 inclus !")
-            
