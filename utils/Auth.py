@@ -11,8 +11,8 @@ def authentifier(login, mot_de_passe):
         if user['login'] == login:
             print(f"L'identifiant est : {login}")
             mdp_hash = hash_mdp(mot_de_passe)
-            print(f"DEBUG: Hash du mdp tapé : {mdp_hash}") 
-            print(f"DEBUG: Hash stocké : {user['password']}")
+            print(f"Hash du mdp tapé : {mdp_hash}") 
+            print(f"Hash stocké : {user['password']}")
             print("Verification du mot de passe...")
 
             if mdp_hash == user['password']:
