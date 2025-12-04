@@ -39,7 +39,7 @@ def save_user(user, type_user):
     print(f"Le compte {type_user.capitalize()} {user.login} est sauvegardé")
 
 def charger_users():
-    """Charge et ajoute tous les users du fichier csv"""
+    """Charge et ajoute ( avec le append) tous les users du fichier csv"""
     init_fichiers()
     users = []
     with open(FICHIER_USERS, 'r', encoding='utf-8') as fichier: # r pour la lecture

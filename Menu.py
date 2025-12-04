@@ -1,7 +1,9 @@
 from classes.User import User
 from classes.Admin import Admin
-from utils.csv_manager import save_user, charger_users
+from utils.csv_manager import save_user, charger_users, FICHIER_USERS, init_fichiers
 from utils.Auth import authentifier
+import os
+import csv
 
 utilisateur_connecte = None
 
@@ -220,6 +222,83 @@ def main_menu():
                 break
             print("Modification en cours...")
 
+            login_modification = input("Entrez le login de l'utilisateur à modifier : ")
+
+            utilisateurs = charger_users()
+
+            utilisateur_trouve = None
+            index_user = -213
+
+            for compteur, user_filtre in enumerate(utilisateurs):
+                if user_filtre['login'] == login_modification:
+                    if utilisateur_connecte['niveau_droits'] == "1":
+                        if user_filtre['region'] != utilisateur_connecte['region']:
+                            print(f"Accès refusé ! L'utilisateur est dans la region {user_filtre['region']}, mauvaise région ! Sinon connectez vous en SUPERADMIN !")
+                            input("Appuyez sur Entrée pour continuer.....")
+                            break
+                        if user_filtre['type'] == 'admin':
+                            print("Accès refusé ! Connectez vous en SUPERADMIN pour modifier un admin !")
+                            input("Appuyez sur Entrée pour continuer....")
+                            break
+                    utilisateur_trouve = user_filtre
+                    index_user = compteur
+                    break
+
+            if utilisateur_trouve is not None:
+                print(f"Utilisateur trouvé : {utilisateur_trouve['prenom']}, {utilisateur_trouve['nom']}")
+                print("Que voulez-vous modifier ? 1 = Nom, 2 = Prénom, 3 = Région et 4 = Annuler")
+
+                choix_modification = input("Votre choix : ")
+
+                if choix_modification == "1":
+                    nouveau_nom = input("Nouveau nom : ")
+                    utilisateurs[index_user]['nom'] = nouveau_nom
+                    print(f"Nom modifié : {nouveau_nom}")
+                elif choix_modification == "2":
+                    nouveau_prenom = input("Nouveau prénom : ")
+                    utilisateurs[index_user]['prenom'] = nouveau_prenom
+                    print(f"Prénom modifié : {nouveau_prenom}")
+                elif choix_modification == "3":
+                    if utilisateur_connecte['niveau_droits'] == "1":
+                        print("Seul un SUPERADMIN peut toucher à ça !")
+                    else:
+                        print("Région disponible : 1 - Marseille / 2 - Rennes / 3 - Grenoble")
+                        choix_region = input("1, 2 ou 3 : ")
+
+                        if choix_region =="1":
+                            utilisateurs[index_user]['region'] = "Marseille"
+                        elif choix_region == "2":
+                            utilisateurs[index_user]['region'] = "Rennes"
+                        elif choix_region == "3":
+                            utilisateurs[index_user]['region'] = "Grenoble"
+                        else:
+                            print("Région indisponible !")
+                            input("Appuyez sur Entrée pour continuer......")
+                            break
+
+                        print(f"Région modifiée : {utilisateurs[index_user]['region']}")
+                elif choix_modification == "4":
+                    print("Modification annulée !")
+                    input("Appuyez sur Entrée pour continuer ......")
+                    break
+
+                if choix_modification in ["1", "2", "3"]:
+                    os.remove(FICHIER_USERS)
+
+                    init_fichiers()
+
+                    with open(FICHIER_USERS, 'a', newline='', encoding='utf-8') as fichier:
+                        writer = csv.writer(fichier)
+                        for user in utilisateurs:
+                            writer.writerow([user['nom'],user['prenom'],user['login'],user['password'],user['type'],user['niveau_droits'], user['region']])
+                    
+                    print("Modifications sauvegardées !")
+
+                elif utilisateur_trouve is None and index_user == -213:
+                    print("Utilisateur introuvable !")
+
+                input("Appuyez sur Entrée pour continuer......")
+
         elif choix == "7":
             if not verification_connexion():
                 break
@@ -239,3 +318,4 @@ def main_menu():
 
         else:
             print("Veillez à entrer un chiffre entre 1 et 9 inclus !")
+        
