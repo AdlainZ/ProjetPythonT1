@@ -182,6 +182,38 @@ def main_menu():
                 break
             print("Recherche d'un utilisateur...")
 
+            login_recherche = input("Entrez le login à chercher : ")
+
+            utilisateurs = charger_users()
+
+            if utilisateur_connecte['niveau_droits'] == "1":
+                utilisateurs_filtres = []
+                for user_filtre in utilisateurs:
+                    if user_filtre['region'] == utilisateur_connecte['region']:
+                        utilisateurs_filtres.append(user_filtre)
+            else:
+                utilisateurs_filtres = utilisateurs
+
+            utilisateur_trouve = None
+            for user_filtre in utilisateurs_filtres:
+                if user_filtre['login'] == login_recherche:
+                    utilisateur_trouve = user_filtre
+                    break
+
+            if utilisateur_trouve is not None:
+                print("Utilisateur trouvé !")
+                print(f"Nom : {utilisateur_trouve['nom']}")
+                print(f"Prénom : {utilisateur_trouve['prenom']}")
+                print(f"Login : {utilisateur_trouve['login']}")
+                print(f"Type : {utilisateur_trouve['type']}")
+                print(f"Niveau de droits : {utilisateur_trouve['niveau_droits']}")
+                print(f"Région : {utilisateur_trouve['region']}")
+            else:
+                print(f"L'utilisateur {login_recherche} est introuvable")
+                if utilisateur_connecte['niveau_droits'] == "1":
+                    print(f"Recherche limité à la région {utilisateur_connecte['region']}")
+            
+            input("Appuyez sur Entrée pour continuer....")
 
         elif choix == "6":
             if not verification_connexion():
