@@ -5,10 +5,11 @@ from utils.csv_manager import charger_users
 class User(Person):
     """Classe qui hérite de Person, et donc qui récupère nom et prenom ainsi que les méthodes dedans."""
     
-    def __init__(self, nom, prenom):
+    def __init__(self, nom, prenom, region):
         print("Création d'un utilisateur...")
         Person.__init__(self, nom, prenom)
         self.login = self.generer_login(nom, prenom)
+        self.region = region
         
         mdp_clair = generer_mdp()
         print(f"Mot de passe généré : {mdp_clair}")

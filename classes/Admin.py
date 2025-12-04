@@ -3,9 +3,9 @@ from classes.User import User
 class Admin(User):
     """Classe héritant de User, qui hérite lui meme de Person, pour eviter de refaire tous les autres paramètres"""
 
-    def __init__(self, nom, prenom, niveau_droits=1):
+    def __init__(self, nom, prenom, region, niveau_droits=1):
         print("Création d'un admin...")
-        User.__init__(self, nom, prenom)
+        User.__init__(self, nom, prenom, region)
         self.niveau_droits = niveau_droits
 
     def afficher_admin(self):
@@ -21,4 +21,3 @@ class Admin(User):
     def verification_gerer_admins(self):
         """Verifie si le superadmin peut gérer les autres admins"""
         return self.niveau_droits >=2
-    

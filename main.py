@@ -93,5 +93,12 @@ print("-----------------USER------------------------")
 #     print(f"Votre compte est un {resultat['type']}")
 # else:
 #     print("Echec de connexion.")
-
+#
+# 
+# 
 main_menu()
+
+# print("-------------Test de l'ajout de la région :----------------------")
+
+#user_test = User("Jhonny", "Tibaxx", "Marseille")
+#save_user(user_test, "user")

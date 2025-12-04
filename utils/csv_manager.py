@@ -16,7 +16,7 @@ def init_fichiers():
         print("Création du fichier users.csv")
         with open(FICHIER_USERS, 'w', newline='', encoding='utf-8') as fichier:
             writer = csv.writer(fichier)
-            writer.writerow(['nom', 'prenom', 'login', 'password', 'type', 'niveau_droits']) # '' et "" agissent pareil, c'est pour être clair dans le code
+            writer.writerow(['nom', 'prenom', 'login', 'password', 'type', 'niveau_droits', 'region']) # '' et "" agissent pareil, c'est pour être clair dans le code
         print(f"Fichier {FICHIER_USERS} créé")
     else:
         print("Le fichier existe déjà")
@@ -28,11 +28,13 @@ def save_user(user, type_user):
 
     with open(FICHIER_USERS, 'a', newline='', encoding='utf-8') as fichier: # a c'est pour ajouter, alors que w c'est pour supprimé et réécrire
         writer = csv.writer(fichier)
+
         if type_user == "admin":
             niveau = user.niveau_droits
         else:
             niveau = 0
-        writer.writerow([user.nom, user.prenom, user.login, user.password, type_user, niveau])
+
+        writer.writerow([user.nom, user.prenom, user.login, user.password, type_user, niveau, user.region])
 
     print(f"Le compte {type_user.capitalize()} {user.login} est sauvegardé")
 
@@ -45,4 +47,3 @@ def charger_users():
         for i in reader: # pour chaque ligne
             users.append(i) # append = ajouter
     return users
-
