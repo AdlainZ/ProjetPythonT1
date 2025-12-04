@@ -1,3 +1,4 @@
 nom,prenom,login,password,type,niveau_droits,region
 Meli,Luzz,lmeli,34e75269d523b99992381ca4f8b2f89c6f4d84ce0e608f2359efac49d824f491,admin,1,Rennes
 Jhonny,Nium,njhonny,b4db51ddf68b178723a4c808715cd94ac17e824874fb827043dad2d0c7a5b111,user,0,Grenoble
+Adel,Ka,kadel,1562e57642a662271a059c92c2891961a6032ccc6140f6a583f9399bad5d0c85,user,0,Rennes
