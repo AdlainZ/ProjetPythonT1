@@ -103,9 +103,14 @@ def main_menu():
                 break
 
             print("Création d'un administrateur en cours...")
+
+            if utilisateur_connecte['niveau_droits'] == "1":
+                print("Accès refusé. Seul un SUPERADMIN peut faire cela.")
+                input("Appuyez sur Entrée pour continuer.....")
+                break
+
             nom = input("Nom : ")
             prenom = input("Prénom : ")
-
             print("Choix parmi les régions suivantes :")
             print("1 - Marseille")
             print("2 - Rennes")
@@ -118,8 +123,9 @@ def main_menu():
             elif choix_region == "3":
                 region = "Grenoble"
             else:
-                print("Region invalide ! Region par défaut : Marseille.")
-                region = "Marseille"
+                print("Region invalide !")
+                input("Appuyez sur Entrée pour continuer....")
+                break
 
             print("Niveau de droits :")
             print("1 - Administrateur ( Il peut gérer les utilisateurs de sa région )")
