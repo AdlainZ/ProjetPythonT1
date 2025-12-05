@@ -1,4 +1,4 @@
-import csv
+import csv #Dictreader et l'utilisation du fichier csv
 import os # Interaction avec le système d'exploitation. Il permet de vérifier le fichier avec os.path, et de créer un dossier avec makedirs
 
 FICHIER_USERS = "data/users.csv"
