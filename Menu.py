@@ -8,7 +8,7 @@ import csv
 utilisateur_connecte = None
 
 def verification_connexion():
-    """On verifie si un admin est co"""
+    """On verifie si un user/admin/SUPERADMIN est co"""
     if utilisateur_connecte is None:
         print("Accès refusé !")
         print("Vous devez être connecté avec un compte administrateur pour accéder à cette interface.")
@@ -303,7 +303,54 @@ def main_menu():
             if not verification_connexion():
                 break
             print("Suppresion en cours...")
-        
+
+            login_suppression = input("Entrez le login de l'utilisateur à supprimer : ")
+
+            utilisateurs = charger_users()
+
+            utilisateur_trouve = None
+            index_user = -213
+
+            for compteur, user_filtre in enumerate(utilisateurs):
+                if user_filtre['login'] == login_suppression:
+                    if utilisateur_connecte['niveau_droits'] == "1":
+                        if user_filtre['region'] != utilisateur_connecte['region']:
+                            print(f"Accès refusé ! L'utilisateur est dans la region {user_filtre['region']}, mauvaise région ! Sinon connectez vous en SUPERADMIN !")
+                            input("Appuyez sur Entrée pour continuer.....")
+                            break
+                        if user_filtre['type'] == 'admin':
+                            print("Accès refusé ! Connectez vous en SUPERADMIN pour supprimer un admin !")
+                            input("Appuyez sur Entrée pour continuer....")
+                            break
+                    utilisateur_trouve = user_filtre
+                    index_user = compteur
+
+            if utilisateur_trouve is not None:
+                print(f"Vous allez supprimer : {utilisateur_trouve['nom']} avec le login {utilisateur_trouve['login']} qui est un {utilisateur_trouve['type']}")
+
+                confirmation = input(f"Sûr de vouloir supprimer {utilisateur_trouve['login']} ? ")
+                confirmation2 = input(f" Il a une famille... Il a un prénom aussi... Son prénom est {utilisateur_trouve['prenom']}... ")
+                confirmation3 = input("C'est la faute à qui ?")
+                confirmation4 = input(f"Bon bah si Madame OULMI veut le supprimer.... (Réponds par oui / non) ")
+
+                if confirmation4.lower() == "oui":
+                    utilisateurs.pop(index_user) # pop = supprimer
+
+                    os.remove(FICHIER_USERS)
+
+                    init_fichiers()
+
+                    with open(FICHIER_USERS, 'a', newline='', encoding='utf-8') as fichier:
+                        writer = csv.writer(fichier)
+                        for user in utilisateurs:
+                            writer.writerow([user['nom'],user['prenom'],user['login'],user['password'],user['type'],user['niveau_droits'], user['region']])
+                    
+                    print(f"Modifications sauvegardées ! Utilisateur {login_suppression} supprimé. Vous êtes cruelle...")
+
+            elif utilisateur_trouve is None and index_user == -213:
+                    print("Utilisateur introuvable !")
+            input("Appuyez sur Entrée pour continuer......")
+
         elif choix == "8":
             if utilisateur_connecte is not None:
                 print("Au revoir !")
