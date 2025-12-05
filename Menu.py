@@ -196,7 +196,7 @@ def main_menu():
             else:
                 utilisateurs_filtres = utilisateurs
 
-            utilisateur_trouve = None
+            utilisateur_trouve = None   # Initié utilisateur_trouve à rien pour le remplir si l'utilisateur est trouvé 
             for user_filtre in utilisateurs_filtres:
                 if user_filtre['login'] == login_recherche:
                     utilisateur_trouve = user_filtre
