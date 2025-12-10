@@ -38,6 +38,7 @@ def afficher_menu():
     print("--------------------------------------------------------------------")
 
 def main_menu():
+    login_try = 0
     """Boucle du menu principal"""
     while True:
         afficher_menu()
@@ -45,14 +46,22 @@ def main_menu():
 
         if choix == "1":
             global utilisateur_connecte
-
+            
             print("Connexion en cours...")
             login = input("Login : ")
             mot_de_passe = input("Mot de passe : ")
 
             resultat = authentifier(login, mot_de_passe)
+            if resultat is -1:
+                print("Echec de connexion !")
+                print("Seuls les administrateurs peuvent se connecter !")
+                login_try+=1
+                print(f"Numéro de tentative : {login_try}")
+                if login_try == 3:
+                    print("Trop grand nombre de tentatives. Au revoir !")
+                    exit(1)
 
-            if resultat is not None:
+            elif resultat is not -1 or resultat is not -2:
                 if resultat['type'] == 'admin':
                     utilisateur_connecte = resultat
                     print(f"Connexion réussie !")
@@ -60,10 +69,6 @@ def main_menu():
                     print(f"Type de compte : {resultat['type']}")
                     print(f"Niveau de droits : {resultat['niveau_droits']}")
                     print(f"Region : {resultat['region']}")
-
-                else:
-                    print("Echec de connexion !")
-                    print("Seuls les administrateurs peuvent se connecter !")
 
                 input("Appuyez sur Entrée pour continuer...........")    
 
