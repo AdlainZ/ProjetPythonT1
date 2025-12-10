@@ -8,9 +8,9 @@ class User(Person):
     def __init__(self, nom, prenom, region):
         print("Création d'un utilisateur...")
         Person.__init__(self, nom, prenom)
-        self.login = self.generer_login(nom, prenom) # A revoir ##
+        self.login = None # A revoir ##
         self.region = region
-        
+
         mdp_clair = generer_mdp()
         print(f"Mot de passe généré : {mdp_clair}")
         self.password = hash_mdp(mdp_clair)
@@ -38,4 +38,4 @@ class User(Person):
             compteur = compteur + 1
             
         print(f"Login final : {login}")
-        return login
+        self.login = login

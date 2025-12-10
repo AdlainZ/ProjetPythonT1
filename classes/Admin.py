@@ -21,3 +21,4 @@ class Admin(User):
     def verification_gerer_admins(self):
         """Verifie si le superadmin peut gérer les autres admins"""
         return self.niveau_droits >=2
+    

@@ -95,6 +95,7 @@ def main_menu():
                     region = "Marseille"
 
             new_user = User(nom, prenom, region)
+            new_user.generer_login(nom, prenom)
             save_user(new_user, "user")
 
             print(f"L'utilisateur {new_user.login} a été créé avec succès dans la région {region}")
