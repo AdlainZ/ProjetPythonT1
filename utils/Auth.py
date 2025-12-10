@@ -3,7 +3,7 @@ from utils.password_utils import hash_mdp
 
 def authentifier(login, mot_de_passe):
     """Authentification via le login et le mot de passe avec un maximum """
-    
+
     utilisateurs = charger_users()
     print(f"Voici le nombre d'utilisateurs : {len(utilisateurs)}")
 
@@ -20,7 +20,7 @@ def authentifier(login, mot_de_passe):
                 return user
             else:
                 print("Connexion échouée")
-                return None
+                return -1
         
     print(f"Login introuvable.")
-    return None
+    return -2
