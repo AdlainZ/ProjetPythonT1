@@ -7,6 +7,7 @@ import csv
 
 utilisateur_connecte = None
 
+
 def verification_connexion():
     """On verifie si un user/admin/SUPERADMIN est co"""
     if utilisateur_connecte is None:
@@ -95,7 +96,7 @@ def main_menu():
                     region = "Marseille"
 
             new_user = User(nom, prenom, region)
-            new_user.generer_login(nom, prenom=)
+            new_user.generer_login(nom, prenom)
             save_user(new_user, "user")
 
             print(f"L'utilisateur {new_user.login} a été créé avec succès dans la région {region}")
@@ -135,28 +136,32 @@ def main_menu():
             print("2 - SuperAdministrateur ( BIGBOSS )")
             niveau = input("Choisissez le niveau ( 1 ou 2 ) : ")
 
-            existing_user = charger_users()
+            existing_users = charger_users()
 
+            abort = False
             if niveau == "1":
-                utilisateurs_filtres = []
-                for user_filtre in existing_user:
-                    if user_filtre['region'] == existing_user['region'] and user_filtre["niveau_droits"] == 1:
-                        print(f"Erreur : Il y a déja un administrateur pour la région {existing_user["region"]}")
+                for user in existing_users:
+                    if user["region"] == region and user["niveau_droits"] == "1":
+                        print(f"Erreur : Il y a déja un administrateur pour la région {region}")
+                        abort = True
+                        break
                     else:
                         niveau_droits = 1
+                
             elif niveau == "2":
                 niveau_droits = 2
             else:
                 print("Niveau invalide. Droits User appliqués")
                 niveau_droits = 0 #Droits par défaut quand il y a eu une erreur
+            
+            if not abort:
+                nouvel_admin = Admin(nom, prenom, region, niveau_droits)
 
-            nouvel_admin = Admin(nom, prenom, region, niveau_droits)
-
-            save_user(nouvel_admin, "admin")
-            print(f"Administrateur {nouvel_admin.login} créé avec succès")
-            print(f"Region : {region}")
-            print(f"Niveau de droits : {nouvel_admin.niveau_droits}")
-            input("Appuyez sur Entrée pour continuer...........")
+                save_user(nouvel_admin, "admin")
+                print(f"Administrateur {nouvel_admin.login} créé avec succès")
+                print(f"Region : {region}")
+                print(f"Niveau de droits : {nouvel_admin.niveau_droits}")
+                input("Appuyez sur Entrée pour continuer...........")
         
         elif choix == "4":
             if not verification_connexion():
