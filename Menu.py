@@ -95,7 +95,7 @@ def main_menu():
                     region = "Marseille"
 
             new_user = User(nom, prenom, region)
-            new_user.generer_login(nom, prenom)
+            new_user.generer_login(nom, prenom=)
             save_user(new_user, "user")
 
             print(f"L'utilisateur {new_user.login} a été créé avec succès dans la région {region}")
@@ -135,8 +135,15 @@ def main_menu():
             print("2 - SuperAdministrateur ( BIGBOSS )")
             niveau = input("Choisissez le niveau ( 1 ou 2 ) : ")
 
+            existing_user = charger_users()
+
             if niveau == "1":
-                niveau_droits = 1
+                utilisateurs_filtres = []
+                for user_filtre in existing_user:
+                    if user_filtre['region'] == existing_user['region'] and user_filtre["niveau_droits"] == 1:
+                        print(f"Erreur : Il y a déja un administrateur pour la région {existing_user["region"]}")
+                    else:
+                        niveau_droits = 1
             elif niveau == "2":
                 niveau_droits = 2
             else:
