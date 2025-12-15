@@ -8,7 +8,7 @@ class User(Person):
     def __init__(self, nom, prenom, region):
         print("Création d'un utilisateur...")
         Person.__init__(self, nom, prenom)
-        self.login = None # A revoir ##
+        self.login = None # Pas de méthode dans un constructeur
         self.region = region
 
         mdp_clair = generer_mdp()

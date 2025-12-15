@@ -1,16 +1,20 @@
 nom,prenom,login,password,type,niveau_droits,region
 Meli,Luzz,lmeli,34e75269d523b99992381ca4f8b2f89c6f4d84ce0e608f2359efac49d824f491,admin,1,Rennes
-Jhonny,Nium,njhonny,b4db51ddf68b178723a4c808715cd94ac17e824874fb827043dad2d0c7a5b111,user,0,Grenoble
 Adel,Ka,kadel,1562e57642a662271a059c92c2891961a6032ccc6140f6a583f9399bad5d0c85,user,0,Rennes
 Ryan,Z,zryan,59558f503e17b7b9810eec870f3f18e7a56960eab03dddbf616e9cf1c3924982,admin,2,Paname
 Rama,A,arama,469059bc1f587a88d3b5f9c844d4746102775251d146a168fae0f9903ae0e1cb,admin,1,Marseille
 B,A,aryan,738ea62feb239bf8e6f4e22861680eb92c25718ca9b6ad0cbc56cdbad2b0c616,user,0,Rennes
 B,A,ab,456d35a83ef3ec7bd2693bd8d70cf14ebbf255fd2449aa2bb575a47e94e96499,user,0,Rennes
 Amine,Dada,damine,e70ca56bada90a857d251b8b54918d44ff89ac2a6187f7eb7abeb137744a83ec,user,0,Marseille
-Nium,Jhoinnyyy,jnium,3def3aba4dc3367b6331866cfff1d7651d4e5520a3ae405146fa966357eecf45,user,0,Grenoble
 B,A,ab1,ba16b295237731772a34a1e4cfba356aa41ed401c61cb8efaf78b970b7a85926,user,0,Rennes
 Caca,Test,tcaca,70fde8d9adaafbd3a2d74fef5ee5885b91bd7d9c50012d21a91179d15d93e199,user,0,Rennes
 DeL,krem,kdel,63db60630659426ec2a373ea2f79275c741ac098e34aecb7eba42eee43812a7c,user,0,Rennes
+<<<<<<< Updated upstream
 toto3,toto3,,9e8215bd5ed7ea0a4334d2904d9ed91e9e0e353585a69b66254c278b34f324df,admin,1,Rennes
 toto4,toto4,,75dfec553730ce1b588b6777decee13128ef5b1f119d2503a601a4bee4429b0d,admin,1,Rennes
 toto7,toto7,,c8f7218aa2b2d82951772c9526350ba9078d43516b59fb8ebf3603554f56e16f,admin,0,Rennes
+Ryan,Ryan,,0fd1898eb0113b84b1c2bba64ce9cf61c35f8dd016e48529fafa851aa22a44b9,admin,1,Grenoble
+=======
+Admin,Admin,,d1b2fb7164290a110f3c08522750edf3477873a8b9a03a50db80a3683673bcac,admin,1,Grenoble
+>>>>>>> Stashed changes
+jhonnyyy,niummmm,njhonnyyy,d04f94eaa96ebd8a56b0bad15be700e0053a0f8a0d56098b3f4e90a8aa1d60e3,user,0,Rennes

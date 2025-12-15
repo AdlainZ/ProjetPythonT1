@@ -1,0 +1,6 @@
+#Fichiers de sauvegardes
+*.csv
+data/
+
+#Le pycache
+__pycache__/

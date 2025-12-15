@@ -22,7 +22,7 @@ def afficher_menu():
     print("SYSTEME DE GESTION DES UTILISATEURS")
 
     if utilisateur_connecte is not None:
-        print(f"Connecté : {utilisateur_connecte['prenom']} {utilisateur_connecte['nom']} {utilisateur_connecte['region']}.")
+        print(f"Connecté : {utilisateur_connecte['prenom']} {utilisateur_connecte['nom']} de la région {utilisateur_connecte['region']}.")
     else:
         print("Non connecté.")
 
@@ -38,7 +38,6 @@ def afficher_menu():
     print("--------------------------------------------------------------------")
 
 def main_menu():
-    login_try = 0
     """Boucle du menu principal"""
     while True:
         afficher_menu()
@@ -49,32 +48,43 @@ def main_menu():
             
             print("Connexion en cours...")
             login = input("Login : ")
-            mot_de_passe = input("Mot de passe : ")
+            
+            tentatives = 0
+            max_tentative = 3
 
-            resultat = authentifier(login, mot_de_passe)
-            if resultat is -1:
-                print("Echec de connexion !")
-                print("Seuls les administrateurs peuvent se connecter !")
-                login_try+=1
-                print(f"Numéro de tentative : {login_try}")
-                if login_try == 3:
-                    print("Trop grand nombre de tentatives. Au revoir !")
-                    exit(1)
+            while tentatives < max_tentative:
+                mot_de_passe = input(f"{tentatives + 1} Attention, le maximum est de {max_tentative}. Mot de passe : ")
 
-            elif resultat is not -1 or resultat is not -2:
-                if resultat['type'] == 'admin':
-                    utilisateur_connecte = resultat
-                    print(f"Connexion réussie !")
-                    print(f"Bienvenue {resultat['prenom']} {resultat['nom']}")
-                    print(f"Type de compte : {resultat['type']}")
-                    print(f"Niveau de droits : {resultat['niveau_droits']}")
-                    print(f"Region : {resultat['region']}")
+                resultat = authentifier(login, mot_de_passe)
+
+                if resultat == -2:
+                    print("Login introuvable")
+                    break
+                
+                elif resultat == -1: # Lorsque le return de authentifier() est à -1, donc lorsque la connexion a échouée
+                    tentatives += 1
+                    if tentatives < max_tentative:
+                        print(f"Il vous reste {max_tentative - tentatives} tentatives !")
+                    else:
+                        print("Nombre maximum de tentatives atteint, retour automatique au menu !")
+                else:
+                    if resultat['type'] == 'admin':
+                        utilisateur_connecte = resultat
+                        print("Connexion réussie !")
+                        print(f"Bienvenue {resultat['prenom']} {resultat['nom']}.")
+                        print(f"Vous êtes affilié à la région {resultat['region']}.")
+                        print(f"Votre niveau de droits : {resultat['niveau_droits']} {resultat['type']}.")
+                        break
+                    else:
+                        print("Connexion refusée.")
+                        print(f"Seuls les administrateurs peuvent se connecter.")
+                        break
 
                 input("Appuyez sur Entrée pour continuer...........")    
 
         elif choix == "2":
             if not verification_connexion():
-                break
+                continue
 
             print("Création d'un utilisateur en cours...")
             nom = input("Nom : ")
@@ -109,14 +119,14 @@ def main_menu():
         
         elif choix == "3":
             if not verification_connexion():
-                break
+                continue
 
             print("Création d'un administrateur en cours...")
 
             if utilisateur_connecte['niveau_droits'] == "1":
                 print("Accès refusé. Seul un SUPERADMIN peut faire cela.")
                 input("Appuyez sur Entrée pour continuer.....")
-                break
+                continue
 
             nom = input("Nom : ")
             prenom = input("Prénom : ")
@@ -170,7 +180,7 @@ def main_menu():
         
         elif choix == "4":
             if not verification_connexion():
-                break
+                continue
             
             print("Chargement des utilisateurs...")
 
@@ -199,7 +209,7 @@ def main_menu():
             input("Appuyez sur Entrée pour continuer......")
         elif choix == "5":
             if not verification_connexion():
-                break
+                continue
             print("Recherche d'un utilisateur...")
 
             login_recherche = input("Entrez le login à chercher : ")
@@ -237,7 +247,7 @@ def main_menu():
 
         elif choix == "6":
             if not verification_connexion():
-                break
+                continue
             print("Modification en cours...")
 
             login_modification = input("Entrez le login de l'utilisateur à modifier : ")
@@ -319,7 +329,7 @@ def main_menu():
 
         elif choix == "7":
             if not verification_connexion():
-                break
+                continue
             print("Suppresion en cours...")
 
             login_suppression = input("Entrez le login de l'utilisateur à supprimer : ")
