@@ -232,11 +232,11 @@ def main_menu():
             for compteur, user_filtre in enumerate(utilisateurs):
                 if user_filtre['login'] == login_modification:
                     if utilisateur_connecte['niveau_droits'] == "1":
-                        if user_filtre['region'] != utilisateur_connecte['region']:
+                        if user_filtre['region'] != utilisateur_connecte['region']: #REFUS D'ACCES SI PAS BONNE REGION
                             print(f"Accès refusé ! L'utilisateur est dans la region {user_filtre['region']}, mauvaise région ! Sinon connectez vous en SUPERADMIN !")
                             input("Appuyez sur Entrée pour continuer.....")
                             break
-                        if user_filtre['type'] == 'admin':
+                        if user_filtre['type'] == 'admin': #REFUS D'ACCES SI PAS SUPERADMIN S'IL VEUT MODIFIER UN ADMIN
                             print("Accès refusé ! Connectez vous en SUPERADMIN pour modifier un admin !")
                             input("Appuyez sur Entrée pour continuer....")
                             break
@@ -365,4 +365,3 @@ def main_menu():
 
         else:
             print("Veillez à entrer un chiffre entre 1 et 9 inclus !")
-        
