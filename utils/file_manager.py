@@ -218,3 +218,36 @@ def deplacer_element(chemin_base):
     
     except Exception as e:
         print(f"Erreur lors du déplacement : {e}")
+
+def supprimer_element(chemin_base):
+    """Supprime un fichier ou un dossier"""
+
+    print("ATTENTION, supprimé c'est supprimé reprendre c'est pas possible !")
+    print("Nom de l'élément à supprimer : ")
+    nom_element = input()
+
+    chemin_complet = os.path.join(chemin_base, nom_element)
+    
+    if not os.path.exists(chemin_complet):
+        print(f"Erreur : '{nom_element}' n'existe pas !")
+        return
+    
+    if os.path.isfile(chemin_complet):
+        print(f"Fichier à supprimer : {chemin_complet}")
+    elif os.path.isdir(chemin_complet):
+        print(f"Dossier à supprimer : {chemin_complet}")
+    
+    confirmation1 = input("Êtes-vous sûr de supprimer ??? Tapez oui.")
+    if confirmation1.lower() != "oui":
+        print("Suppression annulée. Il fallait mettre oui. Ou OuI, ou OUI.")
+        return
+    
+    try:
+        if os.path.isfile(chemin_complet):
+            os.remove(chemin_complet)
+            print(f"Fichier supprimé : {chemin_complet}")
+        elif os.path.isdir(chemin_complet):
+            shutil.rmtree(chemin_complet)
+            print(f"Dossier supprimé : {chemin_complet}")
+    except Exception as e:
+        print(f"Erreur lors de la suppression : {e}")
