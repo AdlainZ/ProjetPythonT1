@@ -2,9 +2,10 @@ from classes.User import User
 from classes.Admin import Admin
 from utils.csv_manager import save_user, charger_users, FICHIER_USERS, init_fichiers
 from utils.Auth import authentifier
-from utils.file_manager import init_dossiers_regions, obtenir_chemin_region, naviguer_arbo, creer_element, modifier_fichier
+from utils.file_manager import init_dossiers_regions, obtenir_chemin_region, naviguer_arbo, creer_element, modifier_fichier, copier_element, deplacer_element
 import os
 import csv
+import shutil
 
 utilisateur_connecte = None
 
@@ -38,6 +39,8 @@ def afficher_menu():
     print("10 - Naviguer dans l'arborescence des fichiers")
     print("11 - Créer un répertoire / fichier")
     print("12 - Modifier un fichier")
+    print("13 - Copier un element")
+    print("14 - Déplacer un élément")
     print("--------------------------------------------------------------------")
 
 def main_menu():
@@ -469,6 +472,72 @@ def main_menu():
                 modifier_fichier(chemin)
 
             input("Appuyez sur Entrée pour continuer...") 
+        
+        elif choix == "13":
+            if not verification_connexion():
+                continue
+            print("Copie d'un élément...")
+
+            if utilisateur_connecte['niveau_droits'] == "1":
+                chemin = obtenir_chemin_region(utilisateur_connecte['region'])
+                print(f"Copie dans votre région ({utilisateur_connecte['region']}).")
+                copier_element(chemin)
+            else:
+                print("Dans quelle région voulez-vous copier ?")
+                print("1 - Marseille")
+                print("2 - Rennes")
+                print("3 - Grenoble")
+                choix_region = input("Votre choix 1, 2 ou 3 : ")
+
+                if choix_region == "1":
+                    region = "Marseille"
+                elif choix_region == "2":
+                    region = "Rennes"
+                elif choix_region == "3":
+                    region = "Grenoble"
+                else:
+                    print("Choix invalide !")
+                    input("Appuyez sur Entrée pour continuer...")
+                    continue
+
+                chemin = obtenir_chemin_region(region)
+                print(f"Modification dans la région de {region}.")
+                copier_element(chemin)
+
+            input("Appuyez sur Entrée pour continuer...")
+
+        elif choix == "14":
+            if not verification_connexion():
+                continue
+            print("Déplacement d'un élément...")
+
+            if utilisateur_connecte['niveau_droits'] == "1":
+                chemin = obtenir_chemin_region(utilisateur_connecte['region'])
+                print(f"Déplacement dans votre région ({utilisateur_connecte['region']}).")
+                deplacer_element(chemin)
+            else:
+                print("Dans quelle région voulez-vous déplacer ?")
+                print("1 - Marseille")
+                print("2 - Rennes")
+                print("3 - Grenoble")
+                choix_region = input("Votre choix 1, 2 ou 3 : ")
+
+                if choix_region == "1":
+                    region = "Marseille"
+                elif choix_region == "2":
+                    region = "Rennes"
+                elif choix_region == "3":
+                    region = "Grenoble"
+                else:
+                    print("Choix invalide !")
+                    input("Appuyez sur Entrée pour continuer...")
+                    continue
+
+                chemin = obtenir_chemin_region(region)
+                print(f"Déplacement dans la région de {region}.")
+                deplacer_element(chemin)
+
+            input("Appuyez sur Entrée pour continuer...")
 
 
         else:

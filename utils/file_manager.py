@@ -151,3 +151,70 @@ def modifier_fichier(chemin_base):
 
     else:
         print("Choix invalide on t'a dis !")
+
+def copier_element(chemin_base):
+    """Copie un fichier ou un dossier et son contenu"""
+
+    print("Nom de l'élement à copier ( chemin possible oui oui)")
+    nom_source = input()
+
+    chemin_source = os.path.join(chemin_base, nom_source)
+
+    if not os.path.exists(chemin_source):
+        print(f"Erreur : '{nom_source}' n'existe pas !")
+        return
+
+    print("Nom de la destination (avec chemin si besoin)")
+    nom_destination = input()
+
+    chemin_destination = os.path.join(chemin_base, nom_destination)
+
+    if os.path.exists(chemin_destination):
+        print(f"Erreur : '{nom_destination} n'existe pas !")
+        return
+    
+    try:
+        if os.path.isfile(chemin_source):
+            shutil.copy(chemin_source, chemin_destination)
+            print(f"Fichier copié : {chemin_source} vers {chemin_destination}")
+
+        elif os.path.isdir(chemin_source):
+            shutil.copytree(chemin_source, chemin_destination)
+            print(f"Dossier copié : {chemin_source} vers {chemin_destination}")
+    
+    except Exception as e:
+        print(f"Erreur lors de la copie : {e}")
+
+def deplacer_element(chemin_base):
+    """Déplacer un fichier ou un dossier"""
+
+    print("Nom de l'élément à déplacer : ")
+    nom_source = input()
+
+    chemin_source = os.path.join(chemin_base, nom_source)
+
+    if not os.path.exists(chemin_source):
+        print(f"Erreur : '{nom_source}' n'existe pas !")
+        return
+    
+    print("Nom de la destination : ")
+    nom_destination = input()
+
+    chemin_destination = os.path.join(chemin_base, nom_destination)
+
+    if os.path.exists(chemin_destination):
+        print(f"Erreur '{nom_destination}' existe déjà !")
+        return
+    
+    dossier_parent = os.path.dirname(chemin_destination)
+    if dossier_parent and not os.path.exists(dossier_parent):
+        print(f"Erreur : Le dossier parent '{dossier_parent}' n'existe pas")
+        print("Créer d'abord le dossier de destination")
+        return
+    
+    try:
+        shutil.move(chemin_source, chemin_destination)
+        print(f"Element deplacé !")
+    
+    except Exception as e:
+        print(f"Erreur lors du déplacement : {e}")
