@@ -13,3 +13,141 @@ def init_dossiers_regions():
             print(f"Dossier {nom_dossier} créé")
         else:
             print(f"Dossier {nom_dossier} existe déjà.")
+
+def obtenir_chemin_region(region):
+    """Retourne le chemin du dossier correspondant à la région donnée"""
+    region_lower = region.lower()
+
+    chemin = f"fichiers_{region_lower}/"
+
+    return chemin
+
+def naviguer_arbo(chemin, niveau=0):
+    """Afficher les dossiers et fichiers appartenant à une région"""
+
+    if not os.path.exists(chemin):
+        print(f"Erreur : Le chemin {chemin} n'existe pas.")
+        return
+    
+    indentation = "  " * niveau
+
+    try:
+        elements = os.listdir(chemin)
+
+        if len(elements) == 0:
+            print(f"{indentation}(Dossier vide)")
+            return
+        
+        for element in elements:
+            chemin_complet = os.path.join(chemin, element)
+
+            if os.path.isdir(chemin_complet):
+                print(f"{indentation}Dossier :{element}/")
+                naviguer_arbo(chemin_complet, niveau + 1)
+            else:
+                print(f"{indentation}Fichier :{element}")
+
+    except PermissionError:
+        print(f"{indentation} Accès refusé !")
+
+
+def creer_element(chemin_base):
+    """Créer un dossier ou un fichier dans le chemin spécifié"""
+
+    print("Créer un dossier ( 1 ) ou un fichier ( 2 ) ?")
+    choix = input("Votre choix ( 1 ou 2 ) : ")
+
+    if choix == "1":
+        print("Vous pouvez utiliser des chemins")
+        nom_dossier = input("Nom du dossier ou du chemin : ")
+
+        chemin_complet = os.path.join(chemin_base, nom_dossier)
+
+        if os.path.exists(chemin_complet):
+            print(f"Erreur : Le dossier '{nom_dossier} existe déjà!")
+            return
+        
+        os.makedirs(chemin_complet)
+        print(f"Dissier créé ! {chemin_complet}")
+    elif choix == "2":
+        print("Vous pouvez utiliser des chemins")
+        nom_fichier = input("Nom du fichier avec ou sans chemin : ")
+
+        chemin_complet = os.path.join(chemin_base, nom_fichier)
+
+        if os.path.exists(chemin_complet):
+            print(f"Erreur, le fichier '{nom_fichier} existe déjà !")
+            return
+        
+        dossier_parent = os.path.dirname(chemin_complet)
+        if not os.path.exists(dossier_parent):
+            print(f"Erreur : Le dossier '{dossier_parent}' n'existe pas !")
+            print("Il faut créer le dossier d'abord, ou utiliser un chemin existant.")
+            return
+        
+        print("Contenu du fichier (Entrée pour un fichier vide) : ")
+        contenu = input()
+
+        with open(chemin_complet, 'w', encoding='utf-8') as fichier:
+            fichier.write(contenu)
+
+            print(f"Fichier créé ! {chemin_complet}")
+        
+    else:
+        print("Choix invalide !")
+
+
+def modifier_fichier(chemin_base):
+    """Modifie le contenu d'un fichier existant"""
+
+    print("Nom du fichier à modifier ( avec le chemin si besoin )")
+    nom_fichier = input()
+
+    chemin_complet = os.path.join(chemin_base, nom_fichier)
+
+    if not os.path.exists(chemin_complet):
+        print(f"Erreur : Le fichier '{nom_fichier} n'existe pas !")
+        return
+    
+    if not os.path.isfile(chemin_complet):
+        print(f"Erreur : '{nom_fichier} est un dossier, pas un fichier !")
+        return
+    
+    print("\nContenu du fichier : ")
+    try:
+        with open(chemin_complet, 'r', encoding='utf-8') as fichier:
+            contenu_actuel = fichier.read()
+            if contenu_actuel:
+                print(contenu_actuel)
+            else:
+                print("(Fichier vide)")
+    
+    except Exception as e:
+        print(f"Erreur lors de la lecture : {e}")
+        return
+    print("Fin du contenu\n")
+
+    print("Comment voulez-vous modifier le fichier ? 1 pour remplacer le contenu et 2 pour ajouter du contenu à la fin")
+    choix = input("Votre choix, 1 ou 2 : ")
+    
+    if choix == "1":
+        print("Nouveau contenu du fichier :")
+        nouveau_contenu = input()
+
+        with open(chemin_complet, 'w', encoding='utf-8') as fichier:
+            fichier.write(nouveau_contenu)
+
+            print(f"Fichier modifié ( tout le contenu a été remplacé !) : {chemin_complet}")
+    
+    elif choix == "2":
+        print("Contenu à ajouter à la fin du fichier :")
+        contenu_ajouter = input()
+
+        with open(chemin_complet, 'a', encoding='utf-8') as fichier:
+            fichier.write("\n") # Saut de ligne sinon pas beau
+            fichier.write(contenu_ajouter)
+        
+        print(f"Fichier modifié (Contenu ajouté !): {chemin_complet}")
+
+    else:
+        print("Choix invalide on t'a dis !")

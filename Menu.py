@@ -2,6 +2,7 @@ from classes.User import User
 from classes.Admin import Admin
 from utils.csv_manager import save_user, charger_users, FICHIER_USERS, init_fichiers
 from utils.Auth import authentifier
+from utils.file_manager import init_dossiers_regions, obtenir_chemin_region, naviguer_arbo, creer_element, modifier_fichier
 import os
 import csv
 
@@ -34,10 +35,17 @@ def afficher_menu():
     print("7 - Supprimer un utilisateur")
     print("8 - Se déconnecter")
     print("9 - Quitter (proprement sans ctrl+C)")
+    print("10 - Naviguer dans l'arborescence des fichiers")
+    print("11 - Créer un répertoire / fichier")
+    print("12 - Modifier un fichier")
     print("--------------------------------------------------------------------")
 
 def main_menu():
     """Boucle du menu principal"""
+    print("Initialisation des dossiers des régions...")
+    init_dossiers_regions()
+    print(".........")
+
     while True:
         afficher_menu()
         choix = input("Votre choix : ")
@@ -363,5 +371,105 @@ def main_menu():
             print("Au revoir !")
             break
 
+        elif choix == "10":
+            if not verification_connexion():
+                continue
+
+            print("Navigation dans l'arborescence...")
+
+            if utilisateur_connecte['niveau_droits'] == "1":
+                chemin = obtenir_chemin_region(utilisateur_connecte['region'])
+                print(f"Arborescence de la région ({utilisateur_connecte['region']}) :")
+                print()
+                naviguer_arbo(chemin)
+            else:
+                print("Choisissez la région à explorer :")
+                print("1 - Marseille")
+                print("2 - Rennes")
+                print("3 - Grenoble")
+                choix_region = input("Votre choix (1, 2 ou 3) : ")
+
+                if choix_region == "1":
+                    region = "Marseille"
+                elif choix_region == "2":
+                    region = "Rennes"
+                elif choix_region == "3":
+                    region = "Grenoble"
+                else:
+                    print("Choix invalide !")
+                    input("Appuyez sur Entrée pour continuer...")
+                    continue
+
+                chemin = obtenir_chemin_region(region)
+                print(f"Arborescence de la région {region} :")
+                naviguer_arbo(chemin)
+
+        elif choix == "11":
+            if not verification_connexion():
+                continue
+            print("Création d'un répertoire ou d'un fichier...")
+
+            if utilisateur_connecte['niveau_droits'] == "1":
+                chemin = obtenir_chemin_region(utilisateur_connecte['region'])
+                print(f"Création dans votre région ({utilisateur_connecte['region']}).")
+                creer_element(chemin)
+            else:
+                print("Dans quelle région voulez-vous créer ?")
+                print("1 - Marseille")
+                print("2 - Rennes")
+                print("3 - Grenoble")
+                choix_region = input("Votre choix 1, 2 ou 3 : ")
+
+                if choix_region == "1":
+                    region = "Marseille"
+                elif choix_region == "2":
+                    region = "Rennes"
+                elif choix_region == "3":
+                    region = "Grenoble"
+                else:
+                    print("Choix invalide !")
+                    input("Appuyez sur Entrée pour continuer...")
+                    continue
+
+                chemin = obtenir_chemin_region(region)
+                print(f"Création dans la région de {region}.")
+                creer_element(chemin)
+
+            input("Appuyez sur Entrée pour continuer...")         
+
+        elif choix == "12":
+            if not verification_connexion():
+                continue
+            print("Modification d'un fichier...")
+
+            if utilisateur_connecte['niveau_droits'] == "1":
+                chemin = obtenir_chemin_region(utilisateur_connecte['region'])
+                print(f"Modification dans votre région ({utilisateur_connecte['region']}).")
+                modifier_fichier(chemin)
+            else:
+                print("Dans quelle région voulez-vous créer ?")
+                print("1 - Marseille")
+                print("2 - Rennes")
+                print("3 - Grenoble")
+                choix_region = input("Votre choix 1, 2 ou 3 : ")
+
+                if choix_region == "1":
+                    region = "Marseille"
+                elif choix_region == "2":
+                    region = "Rennes"
+                elif choix_region == "3":
+                    region = "Grenoble"
+                else:
+                    print("Choix invalide !")
+                    input("Appuyez sur Entrée pour continuer...")
+                    continue
+
+                chemin = obtenir_chemin_region(region)
+                print(f"Modification dans la région de {region}.")
+                modifier_fichier(chemin)
+
+            input("Appuyez sur Entrée pour continuer...") 
+
+
         else:
-            print("Veillez à entrer un chiffre entre 1 et 9 inclus !")
+            print("Veillez à entrer un chiffre entre 1 et 10 inclus !")
