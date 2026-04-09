@@ -326,4 +326,69 @@ def upload_fichier(chemin, region):
 
     except Exception as e:
         print(f"Erreur lors de l'upload : {e}")
+
+def download_fichier(chemin, region):
+    """Download un fichier depuis le FTP Serveur"""
+
+    print("Download depuis le serveur FTP Paris")
+
+    region_lower = region.lower()
+    cheminftp = os.path.join("serveurftp_paris", region_lower)
+
+    if not os.path.exists(cheminftp):
+        print(f"Erreur : Le serveur FTP pour la region {region} n'existe pas !")
+        return
+
+    fichier = os.listdir(cheminftp)
+    fichiers_only = []
+    for fichier in fichiers:
+        chemin_complet = os.path.join(cheminftp, fichier)
+        if os.path.isfile(chemin_complet):
+            fichiers_only.append(fichier)
+
+    if len(fichiers_only) == 0:
+        print(f"Le serveur FTP de la région de {region} est vide ( aucun fichier )")
+        return
+    
+    print(f"Fichiers disponibles : ")
+    print()
+    for i, fichier in enumerate(fichiers_only, start=1):
+        print(f"{i}. {fichier}")
+    print("-------------------")
         
+    print("Tapez le nom complet du fichier à télécharger : ")
+    choix = input()
+
+    fichier_choisi = None
+    
+    if choix in fichiers_only:
+        fichier_choisi = choix
+    else:
+        print(f"Le fichier {choix} n'existe pas.")
+        return
+
+    chemin = os.path.join(cheminftp, fichier_choisi)
+
+    print("____________________________________________________")
+    print(f"Choisissez où télécharger le fichier {fichier_choisi} :")
+    destination_usr = input()
+
+    if destination_usr == "":
+        chemin_usr = os.path.join(chemin, fichier_choisi)
+    else:
+        chemin_usr = os.path.join(chemin, destination_usr)
+    
+    if os.path.exists(chemin_usr):
+        print(f" {chemin_usr} existe déjà !")
+        confirmation = input("L'enregistrer quand même en écrasant l'autre ?")
+        if confirmation.lower() !="oui":
+            print("Téléchargement annulé")
+            return
+    try:
+        shutil.copy(chemin, chemin_usr)
+        print("------------------------------------------------")
+        print('--------------------------------------------')
+        print("Fichier téléchargé avec succès !")
+
+    except Exception as e:
+        print(f"Problème... : {e}")
