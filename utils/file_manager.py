@@ -2,7 +2,7 @@ import os
 import shutil
 
 def init_dossiers_regions():
-    """Initialise les dossiers des régions si ça n'existe pas"""
+    """Initialise les dossiers des régions et le serveur FTP si ça n'existe pas"""
 
     regions = ["marseille", "rennes", "grenoble"]
 
@@ -13,6 +13,25 @@ def init_dossiers_regions():
             print(f"Dossier {nom_dossier} créé")
         else:
             print(f"Dossier {nom_dossier} existe déjà.")
+
+    serveurftp = "serveurftp_Paris"
+
+    if not os.path.exists(serveurftp):
+        os.mkdir(serveurftp)
+        print(f"Dossier du serveur FRP créé avec succès : {serveurftp}")
+    else:
+        print(f"Dossier {serveurftp} existe déjà soit concentré...")
+
+    regions = ["marseille", "rennes", "grenoble"]
+
+    for region in regions:
+        path_region = os.path.join(serveurftp, region)
+
+        if not os.path.exists(path_region):
+            os.mkdir(path_region)
+            print(f"Dossier de la région FTP bien créé : {path_region}")
+        else:
+            print(f"Soit concentré... C'est déjà créé ! {path_region}")
 
 def obtenir_chemin_region(region):
     """Retourne le chemin du dossier correspondant à la région donnée"""
@@ -251,3 +270,60 @@ def supprimer_element(chemin_base):
             print(f"Dossier supprimé : {chemin_complet}")
     except Exception as e:
         print(f"Erreur lors de la suppression : {e}")
+
+def upload_fichier(chemin, region):
+    """Upload un fichier avec versionning dans le fichier serveur ftp"""
+
+    print("Upload vers le serveur FTP")
+    print("Nom du fichier à upload : (chemin possible)")
+    
+    nom_fichier = input()
+
+    chemin_source = os.path.join(chemin, nom_fichier)
+
+    if not os.path.exists(chemin_source):
+        print(f"Erreur : Le fichier '{nom_fichier}' existe pas")
+        return
+    
+    if not os.path.isfile(chemin_source):
+        print("Ce n'est pas un fichier !")
+        return
+    
+    nom_fichieronly = os.path.basename(chemin_source)
+    nom_sans_extension, extension = os.path.splitext(nom_fichieronly)
+
+    region_lower = region.lower()
+    cheminftp = os.path.join("serveur_ftp_paris", region_lower)
+
+    num_v = 1
+
+    if os.path.exists(cheminftp):
+        fichiers = os.listdir(cheminftp)
+
+        version_actuelles = []
+        for fichier in fichiers:
+     
+            if fichier.startswith(f"{nom_sans_extension}_V") and fichier.endswith(extension):
+                try:
+                    partie_v = fichier.replace(f"{nom_sans_extension}_V", "").replace(extension, "")
+                    num = int(partie_v)
+                    version_actuelles.append(num)
+                except ValueError:
+                    pass
+        
+        if len(version_actuelles) > 0:
+            num_v = max(version_actuelles) + 1
+    
+    nom_fichier_v = f"{nom_sans_extension}_V{num_v}{extension}"
+
+    chemin_destination = os.path.join(cheminftp, nom_fichier_v)
+    
+    try:
+        shutil.copy(chemin_source, chemin_destination)
+        print("------------------------------------------------")
+        print('--------------------------------------------')
+        print(f"Version créée : V{num_v}")
+
+    except Exception as e:
+        print(f"Erreur lors de l'upload : {e}")
+        
