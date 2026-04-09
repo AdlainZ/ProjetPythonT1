@@ -2,7 +2,7 @@ from classes.User import User
 from classes.Admin import Admin
 from utils.csv_manager import save_user, charger_users, FICHIER_USERS, init_fichiers
 from utils.Auth import authentifier
-from utils.file_manager import init_dossiers_regions, obtenir_chemin_region, naviguer_arbo, creer_element, modifier_fichier, copier_element, deplacer_element, supprimer_element, upload_fichier
+from utils.file_manager import init_dossiers_regions, obtenir_chemin_region, naviguer_arbo, creer_element, modifier_fichier, copier_element, deplacer_element, supprimer_element, upload_fichier, download_fichier
 import os
 import csv
 import shutil
@@ -43,6 +43,7 @@ def afficher_menu():
     print("14 - Déplacer un élément")
     print("15 - Supprimer un élément")
     print("16 - Upload un fichier vers le serveur FTP")
+    print("17 - Téléchargement d'un élément")
     print("--------------------------------------------------------------------")
 
 def main_menu():
@@ -607,6 +608,38 @@ def main_menu():
 
             input("Appuyez sur Entrée pour continuer...")
 
+        elif choix == "17":
+            if not verification_connexion():
+                continue
+            print("Téléchargement d'un élément...")
+
+            if utilisateur_connecte['niveau_droits'] == "1":
+                chemin = obtenir_chemin_region(utilisateur_connecte['region'])
+                print(f"Téléchargement depuis votre région ({utilisateur_connecte['region']}).")
+                download_fichier(chemin, region)
+            else:
+                print("Dans quelle région voulez-vous télécharger ?")
+                print("1 - Marseille")
+                print("2 - Rennes")
+                print("3 - Grenoble")
+                choix_region = input("Votre choix 1, 2 ou 3 : ")
+
+                if choix_region == "1":
+                    region = "Marseille"
+                elif choix_region == "2":
+                    region = "Rennes"
+                elif choix_region == "3":
+                    region = "Grenoble"
+                else:
+                    print("Choix invalide !")
+                    input("Appuyez sur Entrée pour continuer...")
+                    continue
+
+                chemin = obtenir_chemin_region(region)
+                print(f"Téléchargement dans la région de {region}.")
+                download_fichier(chemin, region)
+
+            input("Appuyez sur Entrée pour continuer...")
 
         else:
             print("Veillez à entrer un chiffre entre 1 et 16 inclus !")
