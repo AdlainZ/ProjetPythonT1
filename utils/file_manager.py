@@ -14,7 +14,7 @@ def init_dossiers_regions():
         else:
             print(f"Dossier {nom_dossier} existe déjà.")
 
-    serveurftp = "serveurftp_Paris"
+    serveurftp = "serveur_ftp_paris"
 
     if not os.path.exists(serveurftp):
         os.mkdir(serveurftp)
@@ -189,7 +189,7 @@ def copier_element(chemin_base):
     chemin_destination = os.path.join(chemin_base, nom_destination)
 
     if os.path.exists(chemin_destination):
-        print(f"Erreur : '{nom_destination} n'existe pas !")
+        print(f"Erreur : {nom_destination} existe déjà !")
         return
     
     try:
@@ -333,13 +333,13 @@ def download_fichier(chemin, region):
     print("Download depuis le serveur FTP Paris")
 
     region_lower = region.lower()
-    cheminftp = os.path.join("serveurftp_paris", region_lower)
+    cheminftp = os.path.join("serveur_ftp_paris", region_lower)
 
     if not os.path.exists(cheminftp):
         print(f"Erreur : Le serveur FTP pour la region {region} n'existe pas !")
         return
 
-    fichier = os.listdir(cheminftp)
+    fichiers = os.listdir(cheminftp)
     fichiers_only = []
     for fichier in fichiers:
         chemin_complet = os.path.join(cheminftp, fichier)
@@ -367,25 +367,25 @@ def download_fichier(chemin, region):
         print(f"Le fichier {choix} n'existe pas.")
         return
 
-    chemin = os.path.join(cheminftp, fichier_choisi)
+    chemin_source = os.path.join(cheminftp, fichier_choisi)
 
     print("____________________________________________________")
     print(f"Choisissez où télécharger le fichier {fichier_choisi} :")
     destination_usr = input()
 
     if destination_usr == "":
-        chemin_usr = os.path.join(chemin, fichier_choisi)
+        chemin_destination = os.path.join(chemin, fichier_choisi)
     else:
-        chemin_usr = os.path.join(chemin, destination_usr)
+        chemin_destination = os.path.join(chemin, destination_usr)
     
-    if os.path.exists(chemin_usr):
-        print(f" {chemin_usr} existe déjà !")
+    if os.path.exists(chemin_destination):
+        print(f" {chemin_destination} existe déjà !")
         confirmation = input("L'enregistrer quand même en écrasant l'autre ?")
         if confirmation.lower() !="oui":
             print("Téléchargement annulé")
             return
     try:
-        shutil.copy(chemin, chemin_usr)
+        shutil.copy(chemin_source, chemin_destination)
         print("------------------------------------------------")
         print('--------------------------------------------')
         print("Fichier téléchargé avec succès !")

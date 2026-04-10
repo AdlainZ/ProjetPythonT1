@@ -614,6 +614,7 @@ def main_menu():
             print("Téléchargement d'un élément...")
 
             if utilisateur_connecte['niveau_droits'] == "1":
+                region = utilisateur_connecte['region']
                 chemin = obtenir_chemin_region(utilisateur_connecte['region'])
                 print(f"Téléchargement depuis votre région ({utilisateur_connecte['region']}).")
                 download_fichier(chemin, region)
@@ -642,4 +643,4 @@ def main_menu():
             input("Appuyez sur Entrée pour continuer...")
 
         else:
-            print("Veillez à entrer un chiffre entre 1 et 16 inclus !")
+            print("Veillez à entrer un chiffre entre 1 et 17 inclus !")
